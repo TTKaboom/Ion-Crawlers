@@ -12,7 +12,6 @@ class DungeonScene(Scene):
     def __init__(self, manager: SceneManager, engine: GameEngine, screen_height: int, screen_width: int):
         super().__init__(manager)
         self.engine = engine
-        self.engine.setup()
         self.screen_height = screen_height
         self.screen_width = screen_width
         self.player = engine.state.player
@@ -158,8 +157,8 @@ class DungeonScene(Scene):
         room_status = self.engine.resolve_current_room()
 
         if room_status == "monster":
-            from game.gui.views.combat_scene import CombatScene
-            self.manager.change_scene(CombatScene(self.manager, self.engine, self.previous_position))
+            from game.gui.scenes.combat_scene import CombatScene
+            self.manager.change_scene(CombatScene(self.manager, self.engine, self.previous_position, self.screen_width, self.screen_height))
 
         elif room_status == "chest":
             self.gained_spell = self.engine.grant_chest_reward()
@@ -402,5 +401,5 @@ class DungeonScene(Scene):
 
     def _complete_run(self) -> None:
         pass
-        #from game.gui.views.summary_scene import SummaryScene
+        #from game.gui.scenes.summary_scene import SummaryScene
         #self.manager.change_scene(SummaryScene(self.manager, self.engine))

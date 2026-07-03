@@ -5,7 +5,8 @@ import game.gui.scenes.title_scene as ts
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((1024, 768))
+    #screen = pygame.display.set_mode((500, 400))
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     pygame.display.set_caption("Ion Crawler")
     clock = pygame.time.Clock()
 

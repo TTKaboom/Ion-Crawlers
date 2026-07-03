@@ -146,9 +146,10 @@ class TitleScene(Scene):
 
         # Instantiate and initialize the engine
         engine = GameEngine(config)
+        engine.setup()
 
         # Import the DungeonScene dynamically to avoid circular import issues
         from game.gui.scenes.dungeon_scene import DungeonScene
 
         # Switch directly to the active Dungeon Crawler view
-        self.manager.change_scene(DungeonScene(self.manager, engine, 1024,768))
+        self.manager.change_scene(DungeonScene(self.manager, engine, 500,400))
