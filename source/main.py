@@ -1,30 +1,37 @@
-from __future__ import annotations
+import pygame
+import game.gui.scene
+from game.gui.scene import SceneManager
+import game.gui.scenes.title_scene as ts
 
-from pathlib import Path
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((1024, 768))
+    pygame.display.set_caption("Ion Crawler")
+    clock = pygame.time.Clock()
 
-from game.cli import CliSession
-from game.engine import GameEngine, RunConfig
-from game.enums import Difficulty, GameMode
+    # Create the manager and set the starting scene
+    manager = SceneManager()
+    manager.change_scene(ts.TitleScene(manager))
 
+    running = True
+    while running:
+        # 1. Delta Time (seconds elapsed since last frame)
+        dt = clock.tick(60) / 1000.0  # Cap at 60 FPS
 
-def main() -> None:
-    """Main game entrypoint."""
-    from game.cli import build_config_from_prompts
-    try:
-        config = build_config_from_prompts()
-    except (KeyboardInterrupt, EOFError):
-        print("\nGoodbye!")
-        return
+        # 2. Event Handling Loop
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            manager.handle_event(event)
 
-    engine = GameEngine(config)
-    engine.setup()
+        # 3. Logic Update
+        manager.update(dt)
 
-    session = CliSession(engine)
-    try:
-        session.run()
-    except (KeyboardInterrupt, EOFError):
-        print("\nGame interrupted. Goodbye!")
+        # 4. Drawing
+        manager.draw(screen)
+        pygame.display.flip()
 
+    pygame.quit()
 
 if __name__ == "__main__":
     main()
